@@ -1,5 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
+
+import useSession from '../hooks/useSession';
 import SideBar from './SideBar';
 import SessionContent from './SessionContent';
 
@@ -13,10 +15,12 @@ const useStyles = makeStyles({
 export default () => {
   const classes = useStyles();
 
+  const { onCardClick } = useSession();
+
   return (
     <main className={classes.main}>
       <SideBar />
-      <SessionContent />
+      <SessionContent onCardClick={onCardClick} />
     </main>
   );
 };

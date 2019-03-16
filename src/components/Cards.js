@@ -15,19 +15,31 @@ const useStyles = makeStyles({
 
 const cardValues = [0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100];
 
-export default () => {
+export default (props) => {
+  const { onCardClick } = props;
+
   const classes = useStyles();
 
   return (
     <>
       <div className={classes.row}>
         {cardValues.slice(0, 5).map((value) => (
-          <Card className={classes.card} value={value} />
+          <Card
+            key={value}
+            className={classes.card}
+            value={value}
+            onClick={onCardClick}
+          />
         ))}
       </div>
       <div className={classes.row}>
         {cardValues.slice(5, 10).map((value) => (
-          <Card className={classes.card} value={value} />
+          <Card
+            key={value}
+            className={classes.card}
+            value={value}
+            onClick={onCardClick}
+          />
         ))}
       </div>
     </>

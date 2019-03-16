@@ -18,7 +18,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default () => {
+export default (props) => {
+  const { onCardClick } = props;
+
   const classes = useStyles();
 
   return (
@@ -26,7 +28,7 @@ export default () => {
       <SessionUrl url="https://simple-planning-poker.netlify.com/session/fkdlmfkdslm" />
       <section className={classes.content}>
         <StoryInput className={classes.storyInput} />
-        <Cards />
+        <Cards onCardClick={onCardClick} />
       </section>
     </section>
   );

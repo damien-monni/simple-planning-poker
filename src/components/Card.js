@@ -23,13 +23,19 @@ const useStyles = makeStyles({
 });
 
 export default (props) => {
-  const { className, value } = props;
+  const { className, value, onClick } = props;
 
   const classes = useStyles();
 
+  const handleClick = () => {
+    onClick && onClick(value);
+  };
+
   return (
     <div className={classNames(classes.root, className)}>
-      <ButtonBase className={classes.button}>{value}</ButtonBase>
+      <ButtonBase onClick={handleClick} className={classes.button}>
+        {value}
+      </ButtonBase>
     </div>
   );
 };

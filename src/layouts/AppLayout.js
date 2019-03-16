@@ -6,6 +6,9 @@ import HomePage from '../components/HomePage';
 import SessionPage from '../components/SessionPage';
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: { main: '#ff4b55' },
   },
