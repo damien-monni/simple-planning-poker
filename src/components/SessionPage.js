@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SideBar from './SideBar';
+
 export default () => {
-  return <p>Session</p>;
+  return <SideBar />;
 };
