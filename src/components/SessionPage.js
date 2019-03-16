@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default () => {
+export default (props) => {
   const classes = useStyles();
 
   const { onCardClick } = useSession();

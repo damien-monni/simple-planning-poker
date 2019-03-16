@@ -20,7 +20,7 @@ export default () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/session/:sessionId" component={SessionPage} />
+          <Route exact path="/session/:sessionId/" component={SessionPage} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>
