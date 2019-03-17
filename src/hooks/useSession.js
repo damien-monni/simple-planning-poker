@@ -146,8 +146,8 @@ export default ({ sessionId }) => {
     };
   });
 
-  const handleCardClick = ({ cardId }) => {
-    publish({ action: 'card-click', userId: sessionState.me.id, cardId });
+  const handleCardClick = ({ id }) => {
+    publish({ action: 'card-click', userId: sessionState.me.id, cardId: id });
   };
 
   return { sessionState, handleCardClick };
