@@ -44,7 +44,6 @@ export default (props) => {
       ) : null}
       {Array.isArray(users) ? (
         <div className={classes.membersContainer}>
-          <Typography>Membres</Typography>
           <List>
             {users.map((user) => (
               <ListItem key={user.id}>
