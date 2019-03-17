@@ -86,8 +86,8 @@ export default ({ sessionId }) => {
             break;
           }
           case 'card-click': {
-            const { userId, cardId } = message;
-            const clickedCard = { id: cardId, userId };
+            const { userId, cardId, cardText } = message;
+            const clickedCard = { id: cardId, text: cardText, userId };
             // Filter in case the user already clicked on a card previously
             const prevClickedCards = sessionState.clickedCards
               ? sessionState.clickedCards.filter((c) => c.userId !== userId)
@@ -146,8 +146,13 @@ export default ({ sessionId }) => {
     };
   });
 
-  const handleCardClick = ({ id }) => {
-    publish({ action: 'card-click', userId: sessionState.me.id, cardId: id });
+  const handleCardClick = ({ id, text }) => {
+    publish({
+      action: 'card-click',
+      userId: sessionState.me.id,
+      cardId: id,
+      cardText: text,
+    });
   };
 
   return { sessionState, handleCardClick };

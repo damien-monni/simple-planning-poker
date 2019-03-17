@@ -21,11 +21,19 @@ export default (props) => {
 
   const { sessionState, handleCardClick } = useSession({ sessionId });
 
+  // Check if everybody has clicked on a card
+  const voteFinished =
+    sessionState &&
+    sessionState.users &&
+    sessionState.clickedCards &&
+    sessionState.users.length === sessionState.clickedCards.length;
+
   return (
     <main className={classes.main}>
       <SideBar sessionState={sessionState} />
       <SessionContent
         sessionState={sessionState}
+        voteFinished={voteFinished}
         onCardClick={handleCardClick}
       />
     </main>
