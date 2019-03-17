@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import PubNub from 'pubnub';
 import shortid from 'shortid';
 
@@ -61,16 +61,49 @@ export default ({ sessionId }) => {
   }, [sessionId]);
 
   // Current state
+  const s = existingSession || {
+    me: existingMe || { id: shortid.generate(), name: 'Coucou c moi' },
+  };
+
   const [sessionState, setSessionState] = useState(() => {
-    const s = existingSession || {
-      me: existingMe || { id: shortid.generate(), name: 'Coucou c moi' },
-    };
     return s;
   });
 
-  // On component mount, set listner based on our role (admin or user)
+  const expectedStateRef = useRef(s);
+  const pongsRef = useRef([]);
+
   useEffect(() => {
+    expectedStateRef.current = sessionState;
+  }, [sessionState]);
+
+  // Handle watchdog
+  const removeDisconectedUser = (state) => {
+    const connectedUsers = expectedStateRef.current.users.filter(
+      (u) => u.isAdmin || pongsRef.current.find((pid) => pid === u.id),
+    );
+    const newState = { ...expectedStateRef.current, users: connectedUsers };
+    setSessionState(newState);
+    const normalizedState = normalizeState(newState);
+    publish({ action: 'new-state', state: normalizedState });
+  };
+  const startWatchdog = () => {
+    setInterval(() => {
+      removeDisconectedUser();
+      pongsRef.current = [];
+      publish({ action: 'ping' });
+    }, 5000);
+  };
+
+  useEffect(() => {
+    // set listners based on our role (admin or user)
     const adminListeners = {
+      status: function(statusEvent) {
+        if (statusEvent.category === 'PNConnectedCategory') {
+          // We joined the session
+          // Start watchdog to detect users' disconections
+          startWatchdog();
+        }
+      },
       message({ message }) {
         switch (message.action) {
           case 'join': {
@@ -80,6 +113,7 @@ export default ({ sessionId }) => {
               ...sessionState,
               users: [...sessionState.users, newUser],
             };
+            pongsRef.current = [...pongsRef.current, newUser.id];
             setSessionState(newState);
             const normalizedState = normalizeState(newState);
             publish({ action: 'new-state', state: normalizedState });
@@ -103,6 +137,10 @@ export default ({ sessionId }) => {
             publish({ action: 'new-state', state: normalizedState });
             break;
           }
+          case 'pong': {
+            pongsRef.current = [...pongsRef.current, message.userId];
+            break;
+          }
           default:
             break;
         }
@@ -124,6 +162,10 @@ export default ({ sessionId }) => {
         switch (message.action) {
           case 'new-state': {
             setSessionState({ ...message.state, me: sessionState.me });
+            break;
+          }
+          case 'ping': {
+            publish({ action: 'pong', userId: sessionState.me.id });
             break;
           }
           default:
