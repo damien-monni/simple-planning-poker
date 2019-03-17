@@ -20,15 +20,18 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.contrastText,
     flex: 1,
     height: '100%',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: ({ isSelected }) => {
+      return theme.palette[isSelected ? 'secondary' : 'primary'].main;
+    },
     borderRadius: 12,
+    transition: 'all 0.2s ease',
   },
 }));
 
 export default (props) => {
-  const { className, value, onClick } = props;
-
-  const classes = useStyles();
+  const { className, value, isSelected, onClick } = props;
+  console.log(isSelected);
+  const classes = useStyles({ isSelected });
 
   const handleClick = () => {
     onClick && onClick(value);

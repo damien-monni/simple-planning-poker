@@ -28,6 +28,11 @@ export default (props) => {
 
   const classes = useStyles();
 
+  const clickedCard =
+    sessionState.clickedCards &&
+    sessionState.clickedCards.find((c) => c.userId === sessionState.me.id);
+  const selectedCardId = clickedCard && clickedCard.id;
+
   return (
     <section className={classes.root}>
       <SessionUrl />
@@ -38,7 +43,7 @@ export default (props) => {
             sessionState={sessionState}
           />
         ) : (
-          <Cards onCardClick={onCardClick} />
+          <Cards selectedCardId={selectedCardId} onCardClick={onCardClick} />
         )}
       </section>
     </section>

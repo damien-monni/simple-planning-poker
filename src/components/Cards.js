@@ -27,7 +27,7 @@ const CARD_VALUES = [
 ];
 
 export default (props) => {
-  const { onCardClick } = props;
+  const { selectedCardId, onCardClick } = props;
 
   const classes = useStyles();
 
@@ -39,6 +39,7 @@ export default (props) => {
             key={value.id}
             className={classes.card}
             value={value}
+            isSelected={value.id === selectedCardId}
             onClick={onCardClick}
           />
         ))}
@@ -49,6 +50,7 @@ export default (props) => {
             key={value.id}
             className={classes.card}
             value={value}
+            isSelected={value.id === selectedCardId}
             onClick={onCardClick}
           />
         ))}

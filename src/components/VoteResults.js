@@ -12,9 +12,13 @@ const useStyles = makeStyles({
     display: 'flex',
     paddingTop: 0,
     paddingBottom: 0,
+    marginTop: 20,
+    marginBottom: 20,
   },
   card: {
     flex: 'inherit',
+    width: 180,
+    textAlign: 'center',
     borderRight: '1px solid #f0f0f0',
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.1)',
     padding: 0,
