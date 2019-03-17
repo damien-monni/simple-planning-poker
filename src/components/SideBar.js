@@ -9,7 +9,7 @@ import AdminIcon from '@material-ui/icons/VerifiedUser';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 300,
-    backgroundColor: theme.palette.primary.main,
+    borderRight: '1px solid #eee',
     overflowY: 'auto',
     flexShrink: 0,
     display: 'flex',
@@ -20,6 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
   membersContainer: {
     marginTop: 'auto',
+  },
+  username: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  adminIcon: {
+    marginLeft: 8,
+    color: '#f44336',
   },
 }));
 
@@ -46,8 +54,11 @@ export default (props) => {
           <List>
             {users.map((user) => (
               <ListItem key={user.id}>
-                <ListItemText>
-                  {user.name} {user.isAdmin ? <AdminIcon /> : null}
+                <ListItemText classes={{ primary: classes.username }}>
+                  {user.name}{' '}
+                  {user.isAdmin ? (
+                    <AdminIcon className={classes.adminIcon} />
+                  ) : null}
                 </ListItemText>
               </ListItem>
             ))}

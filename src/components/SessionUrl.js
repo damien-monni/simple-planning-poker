@@ -8,7 +8,10 @@ const useStyles = makeStyles({
   root: {
     padding: '15px 25px',
     backgroundColor: 'white',
-    boxShadow: '0 0 30px rgba(0, 0, 0, 0.1)',
+    border: '1px solid #eee',
+    borderTopWidth: 0,
+    borderRadius: '0 0 20px 20px',
+    boxShadow: '0 0 30px rgba(33, 150, 243, 0.28)',
   },
 });
 

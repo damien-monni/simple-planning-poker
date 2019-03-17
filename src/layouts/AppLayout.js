@@ -8,9 +8,22 @@ import SessionPage from '../components/SessionPage';
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
+    fontFamily: "'Sniglet', cursive",
   },
   palette: {
-    primary: { main: '#ff4b55' },
+    primary: { main: '#428cff', contrastText: '#ffffff' },
+  },
+  overrides: {
+    MuiButtonBase: {
+      root: {
+        fontFamily: "'Sniglet', cursive",
+      },
+    },
+    MuiButton: {
+      contained: {
+        boxShadow: 'none',
+      },
+    },
   },
 });
 
