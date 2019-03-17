@@ -68,6 +68,7 @@ export default ({ sessionId }) => {
     return s;
   });
 
+  // On component mount, set listner based on our role (admin or user)
   useEffect(() => {
     if (existingMe && existingMe.isAdmin) {
       // We are the session admin
