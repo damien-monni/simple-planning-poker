@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,22 +16,37 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  initButtonContainer: {
+    margin: 20,
+  },
   membersContainer: {
     marginTop: 'auto',
   },
 }));
 
 export default (props) => {
-  const { sessionState } = props;
+  const { users, showInitButton, meIsAdmin, onInitButtonClick } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      {sessionState && Array.isArray(sessionState.users) ? (
+      {meIsAdmin && showInitButton ? (
+        <div className={classes.initButtonContainer}>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            onClick={onInitButtonClick}
+          >
+            Réinitialiser
+          </Button>
+        </div>
+      ) : null}
+      {Array.isArray(users) ? (
         <div className={classes.membersContainer}>
           <Typography>Membres</Typography>
           <List>
-            {sessionState.users.map((user) => (
+            {users.map((user) => (
               <ListItem key={user.id}>
                 <ListItemText>
                   {user.name} {user.isAdmin ? <AdminIcon /> : null}

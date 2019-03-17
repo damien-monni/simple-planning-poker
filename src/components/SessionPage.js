@@ -19,7 +19,9 @@ export default (props) => {
 
   const classes = useStyles();
 
-  const { sessionState, handleCardClick } = useSession({ sessionId });
+  const { sessionState, handleCardClick, handleInitButtonClick } = useSession({
+    sessionId,
+  });
 
   // Check if everybody has clicked on a card
   const voteFinished =
@@ -28,9 +30,18 @@ export default (props) => {
     sessionState.clickedCards &&
     sessionState.users.length === sessionState.clickedCards.length;
 
+  const meIsAdmin =
+    sessionState.me.id ===
+    (sessionState.users && sessionState.users.find((u) => u.isAdmin).id);
+
   return (
     <main className={classes.main}>
-      <SideBar sessionState={sessionState} />
+      <SideBar
+        showInitButton={Boolean(voteFinished)}
+        users={sessionState.users}
+        meIsAdmin={meIsAdmin}
+        onInitButtonClick={handleInitButtonClick}
+      />
       <SessionContent
         sessionState={sessionState}
         voteFinished={voteFinished}

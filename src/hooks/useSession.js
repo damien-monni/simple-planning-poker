@@ -155,5 +155,12 @@ export default ({ sessionId }) => {
     });
   };
 
-  return { sessionState, handleCardClick };
+  const handleInitButtonClick = () => {
+    const newState = { ...sessionState, clickedCards: [] };
+    setSessionState(newState);
+    const normalizedState = normalizeState(newState);
+    publish({ action: 'new-state', state: normalizedState });
+  };
+
+  return { sessionState, handleCardClick, handleInitButtonClick };
 };
