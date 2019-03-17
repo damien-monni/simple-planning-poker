@@ -19,12 +19,15 @@ export default (props) => {
 
   const classes = useStyles();
 
-  const { sessionState } = useSession({ sessionId });
+  const { sessionState, handleCardClick } = useSession({ sessionId });
 
   return (
     <main className={classes.main}>
       <SideBar sessionState={sessionState} />
-      <SessionContent sessionState={sessionState} />
+      <SessionContent
+        sessionState={sessionState}
+        onCardClick={handleCardClick}
+      />
     </main>
   );
 };

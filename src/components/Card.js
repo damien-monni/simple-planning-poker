@@ -34,7 +34,7 @@ export default (props) => {
   return (
     <div className={classNames(classes.root, className)}>
       <ButtonBase onClick={handleClick} className={classes.button}>
-        {value}
+        {value.text}
       </ButtonBase>
     </div>
   );

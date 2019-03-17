@@ -70,55 +70,85 @@ export default ({ sessionId }) => {
 
   // On component mount, set listner based on our role (admin or user)
   useEffect(() => {
+    const adminListeners = {
+      message({ message }) {
+        switch (message.action) {
+          case 'join': {
+            // Add joined user to state
+            const newUser = message.user;
+            const newState = {
+              ...sessionState,
+              users: [...sessionState.users, newUser],
+            };
+            setSessionState(newState);
+            const normalizedState = normalizeState(newState);
+            publish({ action: 'new-state', state: normalizedState });
+            break;
+          }
+          case 'card-click': {
+            const { userId, cardId } = message;
+            const clickedCard = { id: cardId, userId };
+            // Filter in case the user already clicked on a card previously
+            const prevClickedCards = sessionState.clickedCards
+              ? sessionState.clickedCards.filter((c) => c.userId !== userId)
+              : [];
+            // Set new clicked card state
+            const newClickedCards = [...prevClickedCards, clickedCard];
+            const newState = {
+              ...sessionState,
+              clickedCards: newClickedCards,
+            };
+            setSessionState(newState);
+            const normalizedState = normalizeState(newState);
+            publish({ action: 'new-state', state: normalizedState });
+            break;
+          }
+          default:
+            break;
+        }
+      },
+    };
+
+    const userListeners = {
+      status: function(statusEvent) {
+        if (statusEvent.category === 'PNConnectedCategory') {
+          // We joined the session
+          // Emit a join message
+          publish({
+            action: 'join',
+            user: sessionState.me,
+          });
+        }
+      },
+      message({ message }) {
+        switch (message.action) {
+          case 'new-state': {
+            setSessionState({ ...message.state, me: sessionState.me });
+            break;
+          }
+          default:
+            break;
+        }
+      },
+    };
     if (existingMe && existingMe.isAdmin) {
       // We are the session admin
-      pubnub.addListener({
-        message({ message }) {
-          switch (message.action) {
-            case 'join': {
-              // Add joined user to state
-              const newUser = message.user;
-              const newState = {
-                ...sessionState,
-                users: [...sessionState.users, newUser],
-              };
-              setSessionState(newState);
-              const normalizedState = normalizeState(newState);
-              publish({ action: 'new-state', state: normalizedState });
-              break;
-            }
-            default:
-              break;
-          }
-        },
-      });
-    } else {
-      // We are joining an existing session
-      // Set listeners
-      pubnub.addListener({
-        status: function(statusEvent) {
-          if (statusEvent.category === 'PNConnectedCategory') {
-            // We joined the session
-            // Emit a join message
-            publish({
-              action: 'join',
-              user: sessionState.me,
-            });
-          }
-        },
-        message({ message }) {
-          switch (message.action) {
-            case 'new-state': {
-              setSessionState({ ...message.state, ...sessionState.me });
-              break;
-            }
-            default:
-              break;
-          }
-        },
-      });
+      pubnub.addListener(adminListeners);
+      return () => {
+        pubnub.removeListener(adminListeners);
+      };
     }
-  }, []);
+    // We are joining an existing session
+    // Set listeners
+    pubnub.addListener(userListeners);
+    return () => {
+      pubnub.removeListener(userListeners);
+    };
+  });
 
-  return { sessionState };
+  const handleCardClick = ({ cardId }) => {
+    publish({ action: 'card-click', userId: sessionState.me.id, cardId });
+  };
+
+  return { sessionState, handleCardClick };
 };

@@ -13,7 +13,18 @@ const useStyles = makeStyles({
   },
 });
 
-const cardValues = [0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100];
+const CARD_VALUES = [
+  { id: 0, text: '0.5' },
+  { id: 1, text: '1' },
+  { id: 2, text: '2' },
+  { id: 3, text: '3' },
+  { id: 4, text: '5' },
+  { id: 5, text: '8' },
+  { id: 6, text: '13' },
+  { id: 7, text: '20' },
+  { id: 8, text: '40' },
+  { id: 9, text: '100' },
+];
 
 export default (props) => {
   const { onCardClick } = props;
@@ -23,9 +34,9 @@ export default (props) => {
   return (
     <>
       <div className={classes.row}>
-        {cardValues.slice(0, 5).map((value) => (
+        {CARD_VALUES.slice(0, 5).map((value) => (
           <Card
-            key={value}
+            key={value.id}
             className={classes.card}
             value={value}
             onClick={onCardClick}
@@ -33,9 +44,9 @@ export default (props) => {
         ))}
       </div>
       <div className={classes.row}>
-        {cardValues.slice(5, 10).map((value) => (
+        {CARD_VALUES.slice(5, 10).map((value) => (
           <Card
-            key={value}
+            key={value.id}
             className={classes.card}
             value={value}
             onClick={onCardClick}
