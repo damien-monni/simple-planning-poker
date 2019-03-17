@@ -29,7 +29,7 @@ export default (props) => {
 
   return (
     <section className={classes.root}>
-      <SessionUrl url="https://simple-planning-poker.netlify.com/session/fkdlmfkdslm" />
+      <SessionUrl />
       <section className={classes.content}>
         <StoryInput className={classes.storyInput} />
         {voteFinished ? (

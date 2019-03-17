@@ -12,10 +12,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default (props) => {
-  const { url } = props;
-
+export default () => {
   const classes = useStyles();
+
+  const url = document.location.href;
 
   return (
     <div className={classes.root}>
