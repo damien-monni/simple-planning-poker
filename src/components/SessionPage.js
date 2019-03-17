@@ -13,14 +13,18 @@ const useStyles = makeStyles({
 });
 
 export default (props) => {
+  const { match } = props;
+
+  const { sessionId } = match.params;
+
   const classes = useStyles();
 
-  const { onCardClick } = useSession();
+  const { sessionState } = useSession({ sessionId });
 
   return (
     <main className={classes.main}>
-      <SideBar />
-      <SessionContent onCardClick={onCardClick} />
+      <SideBar sessionState={sessionState} />
+      <SessionContent sessionState={sessionState} />
     </main>
   );
 };

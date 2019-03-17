@@ -1,35 +1,123 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import PubNub from 'pubnub';
+import shortid from 'shortid';
 
 const pubnub = new PubNub({
   publishKey: process.env.REACT_APP_PUBNUB_PUBLISH_KEY,
   subscribeKey: process.env.REACT_APP_PUBNUB_SUBSCRIBE_KEY,
 });
 
-export default () => {
-  useEffect(() => {
-    pubnub.addListener({
-      message(msg) {
-        console.log(msg.message);
-      },
-    });
-    pubnub.subscribe({ channels: ['test'] });
-    return () => {
-      pubnub.unsubscribeAll();
-    };
-  }, []);
+const normalizeState = (state) => {
+  const normalizedState = { ...state };
+  delete normalizedState.me;
+  return normalizedState;
+};
 
+/*******************************
+- Subscribe to pubnub channel based on sessionId
+  
+- Check in local storage if session exists and if we are admin
+  - If we are admin
+    - Set PubNub listner to "join" messages
+      - When "join" is received, add the new user to user list
+      - Send the new state by emitting a "new-state" message
+  - Else
+    - Set PubNub to "new-state" messages
+    -Emit a "join" message
+*******************************/
+export default ({ sessionId }) => {
+  // Util function to publish a message
   const publish = (message) => {
     const publishConfig = {
-      channel: 'test',
+      channel: sessionId,
       message,
     };
     pubnub.publish(publishConfig);
   };
 
-  const handleCardClick = (value) => {
-    publish({ action: 'card-select', value });
-  };
+  // Subscribe to PubNub session channel on component mount
+  useEffect(() => {
+    pubnub.subscribe({ channels: [sessionId] });
 
-  return { onCardClick: handleCardClick };
+    return () => {
+      // Unsubscribe on unmount
+      pubnub.unsubscribeAll();
+    };
+  }, []);
+
+  // Check if we are admin or joining a session
+  // We use memo because we only do that once
+  const { existingSession, existingMe } = useMemo(() => {
+    const stateString = localStorage.getItem('spp-state');
+    const state = stateString && JSON.parse(stateString);
+
+    const exSession =
+      state &&
+      state.sessions &&
+      state.sessions.find((session) => session.id === sessionId);
+    const exMe =
+      exSession && exSession.users.find((u) => u.id === exSession.me.id);
+    return { existingSession: exSession, existingMe: exMe };
+  }, [sessionId]);
+
+  // Current state
+  const [sessionState, setSessionState] = useState(() => {
+    const s = existingSession || {
+      me: existingMe || { id: shortid.generate(), name: 'Coucou c moi' },
+    };
+    return s;
+  });
+
+  useEffect(() => {
+    if (existingMe && existingMe.isAdmin) {
+      // We are the session admin
+      pubnub.addListener({
+        message({ message }) {
+          switch (message.action) {
+            case 'join': {
+              // Add joined user to state
+              const newUser = message.user;
+              const newState = {
+                ...sessionState,
+                users: [...sessionState.users, newUser],
+              };
+              setSessionState(newState);
+              const normalizedState = normalizeState(newState);
+              publish({ action: 'new-state', state: normalizedState });
+              break;
+            }
+            default:
+              break;
+          }
+        },
+      });
+    } else {
+      // We are joining an existing session
+      // Set listeners
+      pubnub.addListener({
+        status: function(statusEvent) {
+          if (statusEvent.category === 'PNConnectedCategory') {
+            // We joined the session
+            // Emit a join message
+            publish({
+              action: 'join',
+              user: sessionState.me,
+            });
+          }
+        },
+        message({ message }) {
+          switch (message.action) {
+            case 'new-state': {
+              setSessionState({ ...message.state, ...sessionState.me });
+              break;
+            }
+            default:
+              break;
+          }
+        },
+      });
+    }
+  }, []);
+
+  return { sessionState };
 };

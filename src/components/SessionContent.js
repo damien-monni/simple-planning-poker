@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 export default (props) => {
-  const { onCardClick } = props;
+  const { sessionState, onCardClick } = props;
 
   const classes = useStyles();
 
