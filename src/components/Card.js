@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: '0 0 50px rgba(0, 0, 0, 0.2)',
     },
   },
+  selected: {
+    transform: 'translate(3px, 3px)',
+  },
   button: {
     fontSize: '3rem',
     color: theme.palette.primary.contrastText,
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default (props) => {
   const { className, value, isSelected, onClick } = props;
-  console.log(isSelected);
+
   const classes = useStyles({ isSelected });
 
   const handleClick = () => {
@@ -43,7 +46,13 @@ export default (props) => {
   };
 
   return (
-    <div className={classNames(classes.root, className)}>
+    <div
+      className={classNames(
+        classes.root,
+        className,
+        isSelected && classes.selected,
+      )}
+    >
       <ButtonBase onClick={handleClick} className={classes.button}>
         {value.text}
       </ButtonBase>

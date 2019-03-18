@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 import UserNameInput from './UserNameInput';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    width: 300,
+    flexShrink: 0,
+  },
   root: {
     width: 300,
     borderRight: '1px solid #eee',
@@ -14,6 +23,17 @@ const useStyles = makeStyles({
     flexShrink: 0,
     display: 'flex',
     flexDirection: 'column',
+  },
+  header: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    padding: 10,
+    display: 'flex',
+    alignItems: 'center',
+    height: 50,
+  },
+  closeButton: {
+    marginLeft: 'auto',
   },
   initButtonContainer: {
     margin: 20,
@@ -25,11 +45,21 @@ const useStyles = makeStyles({
     paddingTop: 0,
     paddingBottom: 0,
   },
-});
+}));
 
 export default (props) => {
   const { users, showInitButton, me, onInitButtonClick, onNameChange } = props;
   const classes = useStyles();
+
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(true);
+
+  const handleMobileDrawerOpen = () => {
+    setMobileDrawerOpen(true);
+  };
+
+  const handleMobileDrawerClose = () => {
+    setMobileDrawerOpen(false);
+  };
 
   const handleNameChange = (event) => {
     const { name, value } = event.target;
@@ -38,8 +68,22 @@ export default (props) => {
 
   const meIsAdmin = me && me.id === (users && users.find((u) => u.isAdmin).id);
 
-  return (
-    <div className={classes.root}>
+  const drawer = (
+    <>
+      <header className={classes.header}>
+        <Typography variant="subtitle1" color="inherit">
+          Simple Planning Poker
+        </Typography>
+        <Hidden smUp>
+          <IconButton
+            color="inherit"
+            className={classes.closeButton}
+            onClick={handleMobileDrawerClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Hidden>
+      </header>
       {meIsAdmin && showInitButton ? (
         <div className={classes.initButtonContainer}>
           <Button
@@ -69,6 +113,26 @@ export default (props) => {
           </List>
         </div>
       ) : null}
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      <Hidden smUp>
+        <Drawer
+          variant="temporary"
+          open={mobileDrawerOpen}
+          classes={{
+            paper: classes.drawer,
+          }}
+          onClose={handleMobileDrawerClose}
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
+      <Hidden xsDown>
+        <div className={classes.root}>{drawer}</div>
+      </Hidden>
+    </>
   );
 };
