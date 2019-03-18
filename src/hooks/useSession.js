@@ -109,7 +109,7 @@ export default ({ sessionId }) => {
       removeDisconectedUser();
       pongsRef.current = [];
       publish({ action: 'ping' });
-    }, 5000);
+    }, 20000);
   };
 
   useEffect(() => {
@@ -173,8 +173,10 @@ export default ({ sessionId }) => {
             publish({ action: 'new-state', state: normalizedState });
             break;
           }
-          case 'pong': {
-            pongsRef.current = [...pongsRef.current, message.userId];
+          case 'ping': {
+            if (pongsRef.current.indexOf(message.userId) === -1) {
+              pongsRef.current = [...pongsRef.current, message.userId];
+            }
             break;
           }
           default:
@@ -192,16 +194,15 @@ export default ({ sessionId }) => {
             action: 'join',
             user: sessionState.me,
           });
+          setInterval(() => {
+            publish({ action: 'ping', userId: sessionState.me.id });
+          }, 10000);
         }
       },
       message({ message }) {
         switch (message.action) {
           case 'new-state': {
             setSessionState({ ...message.state, me: sessionState.me });
-            break;
-          }
-          case 'ping': {
-            publish({ action: 'pong', userId: sessionState.me.id });
             break;
           }
           default:
@@ -219,6 +220,7 @@ export default ({ sessionId }) => {
     // We are joining an existing session
     // Set listeners
     pubnub.addListener(userListeners);
+
     return () => {
       pubnub.removeListener(userListeners);
     };

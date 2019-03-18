@@ -9,6 +9,8 @@ import PersonIcon from '@material-ui/icons/Person';
 const useStyles = makeStyles((theme) => ({
   meContainer: {
     width: 30,
+    marginLeft: 10,
+    marginRight: 7,
   },
   adminIcon: {
     marginLeft: 8,
@@ -18,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
   input: {
-    padding: '5px 10px',
+    padding: '5px 14px',
+    borderRadius: 5,
   },
   showHover: {
     '&:hover': {
