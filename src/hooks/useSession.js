@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useReducer } from 'react';
 import PubNub from 'pubnub';
 import shortid from 'shortid';
 
@@ -65,9 +65,27 @@ export default ({ sessionId }) => {
     me: existingMe || { id: shortid.generate(), name: 'Anonyme' },
   };
 
-  const [sessionState, setSessionState] = useState(() => {
-    return s;
-  });
+  const [sessionState, setSessionState] = useReducer(
+    (prevSessionState, newSessionState) => {
+      const stateString = localStorage.getItem('spp-state');
+      const state = stateString && JSON.parse(stateString);
+
+      if (state) {
+        const newSessions = state.sessions.map((session) => {
+          if (session.id === sessionId) {
+            return newSessionState;
+          }
+          return session;
+        });
+        localStorage.setItem(
+          'spp-state',
+          JSON.stringify({ sessions: newSessions }),
+        );
+      }
+      return newSessionState;
+    },
+    s,
+  );
 
   const expectedStateRef = useRef(s);
   const pongsRef = useRef([]);
