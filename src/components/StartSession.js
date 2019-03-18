@@ -7,19 +7,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.25)',
-    borderRadius: 10,
-    width: 500,
-    maxWidth: '100%',
-    [theme.breakpoints.down('xs')]: {
-      borderRadius: 0,
+    borderRadius: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      borderRadius: 10,
+      width: 500,
+      maxWidth: '100%',
     },
   },
   form: {
-    margin: 50,
-    [theme.breakpoints.down('xs')]: {
-      margin: 25,
-      marginTop: 40,
-      marginBottom: 40,
+    margin: 25,
+    marginTop: 40,
+    marginBottom: 40,
+    [theme.breakpoints.up('sm')]: {
+      margin: 50,
     },
   },
   textField: {
