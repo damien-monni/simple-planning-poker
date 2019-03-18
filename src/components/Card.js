@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 15,
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.2)',
     padding: 10,
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      transform: 'translate(3px, 3px)',
+      boxShadow: '0 0 50px rgba(0, 0, 0, 0.2)',
+    },
   },
   button: {
     fontSize: '3rem',

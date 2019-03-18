@@ -19,7 +19,12 @@ export default (props) => {
 
   const classes = useStyles();
 
-  const { sessionState, handleCardClick, handleInitButtonClick } = useSession({
+  const {
+    sessionState,
+    handleCardClick,
+    handleInitButtonClick,
+    handleNameChange,
+  } = useSession({
     sessionId,
   });
 
@@ -29,17 +34,13 @@ export default (props) => {
     sessionState.users &&
     sessionState.clickedCards &&
     sessionState.users.length === sessionState.clickedCards.length;
-
-  const meIsAdmin =
-    sessionState.me.id ===
-    (sessionState.users && sessionState.users.find((u) => u.isAdmin).id);
-
   return (
     <main className={classes.main}>
       <SideBar
         showInitButton={Boolean(voteFinished)}
         users={sessionState.users}
-        meIsAdmin={meIsAdmin}
+        me={sessionState.me}
+        onNameChange={handleNameChange}
         onInitButtonClick={handleInitButtonClick}
       />
       <SessionContent

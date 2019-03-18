@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import AdminIcon from '@material-ui/icons/VerifiedUser';
 
-const useStyles = makeStyles((theme) => ({
+import UserNameInput from './UserNameInput';
+
+const useStyles = makeStyles({
   root: {
     width: 300,
     borderRight: '1px solid #eee',
@@ -21,19 +21,22 @@ const useStyles = makeStyles((theme) => ({
   membersContainer: {
     marginTop: 'auto',
   },
-  username: {
-    display: 'flex',
-    alignItems: 'center',
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0,
   },
-  adminIcon: {
-    marginLeft: 8,
-    color: '#f44336',
-  },
-}));
+});
 
 export default (props) => {
-  const { users, showInitButton, meIsAdmin, onInitButtonClick } = props;
+  const { users, showInitButton, me, onInitButtonClick, onNameChange } = props;
   const classes = useStyles();
+
+  const handleNameChange = (event) => {
+    const { name, value } = event.target;
+    onNameChange && onNameChange({ userId: name, name: value });
+  };
+
+  const meIsAdmin = me && me.id === (users && users.find((u) => u.isAdmin).id);
 
   return (
     <div className={classes.root}>
@@ -53,13 +56,14 @@ export default (props) => {
         <div className={classes.membersContainer}>
           <List>
             {users.map((user) => (
-              <ListItem key={user.id}>
-                <ListItemText classes={{ primary: classes.username }}>
-                  {user.name}{' '}
-                  {user.isAdmin ? (
-                    <AdminIcon className={classes.adminIcon} />
-                  ) : null}
-                </ListItemText>
+              <ListItem className={classes.listItem} key={user.id}>
+                <UserNameInput
+                  name={user.id}
+                  value={user.name}
+                  isMe={me && user.id === me.id}
+                  isAdmin={user.isAdmin}
+                  onChange={handleNameChange}
+                />
               </ListItem>
             ))}
           </List>

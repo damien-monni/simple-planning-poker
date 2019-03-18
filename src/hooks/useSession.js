@@ -62,7 +62,7 @@ export default ({ sessionId }) => {
 
   // Current state
   const s = existingSession || {
-    me: existingMe || { id: shortid.generate(), name: 'Coucou c moi' },
+    me: existingMe || { id: shortid.generate(), name: 'Anonyme' },
   };
 
   const [sessionState, setSessionState] = useState(() => {
@@ -114,6 +114,24 @@ export default ({ sessionId }) => {
               users: [...sessionState.users, newUser],
             };
             pongsRef.current = [...pongsRef.current, newUser.id];
+            setSessionState(newState);
+            const normalizedState = normalizeState(newState);
+            publish({ action: 'new-state', state: normalizedState });
+            break;
+          }
+          case 'new-name': {
+            const { name, userId } = message;
+
+            const newState = {
+              ...sessionState,
+              users: sessionState.users.map((user) => {
+                if (user.id !== userId) {
+                  return user;
+                }
+                return { ...user, name };
+              }),
+            };
+
             setSessionState(newState);
             const normalizedState = normalizeState(newState);
             publish({ action: 'new-state', state: normalizedState });
@@ -204,5 +222,14 @@ export default ({ sessionId }) => {
     publish({ action: 'new-state', state: normalizedState });
   };
 
-  return { sessionState, handleCardClick, handleInitButtonClick };
+  const handleNameChange = ({ userId, name }) => {
+    publish({ action: 'new-name', userId, name });
+  };
+
+  return {
+    sessionState,
+    handleCardClick,
+    handleNameChange,
+    handleInitButtonClick,
+  };
 };
