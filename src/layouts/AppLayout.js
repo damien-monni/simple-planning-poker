@@ -9,6 +9,12 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: "'Sniglet', cursive",
+    h1: {
+      fontSize: '2rem',
+      '@media (min-width:600px)': {
+        fontSize: '5rem',
+      },
+    },
   },
   palette: {
     primary: { main: '#428cff', contrastText: '#ffffff' },

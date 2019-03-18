@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginBottom: 80,
+    textAlign: 'center',
   },
 }));
 
