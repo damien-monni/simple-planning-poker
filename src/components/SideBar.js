@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,6 +12,8 @@ import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
 import UserNameInput from './UserNameInput';
+import ResetSessionButton from './ResetSessionButton';
+import LanguageSelect from './LanguageSelect';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    padding: 10,
+    padding: '10px 20px',
     display: 'flex',
     alignItems: 'center',
     height: 50,
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   initButtonContainer: {
     margin: 20,
   },
-  membersContainer: {
+  languageSelect: {
     marginTop: 'auto',
   },
   listItem: {
@@ -80,6 +81,7 @@ export default (props) => {
             Simple Planning Poker
           </Link>
         </Typography>
+
         <Hidden smUp>
           <IconButton
             color="inherit"
@@ -90,35 +92,30 @@ export default (props) => {
           </IconButton>
         </Hidden>
       </header>
+
+      {Array.isArray(users) ? (
+        <List>
+          {users.map((user) => (
+            <ListItem className={classes.listItem} key={user.id}>
+              <UserNameInput
+                name={user.id}
+                value={user.name}
+                isMe={me && user.id === me.id}
+                isAdmin={user.isAdmin}
+                onChange={handleNameChange}
+              />
+            </ListItem>
+          ))}
+        </List>
+      ) : null}
+
       {showInitButton ? (
         <div className={classes.initButtonContainer}>
-          <Button
-            variant="contained"
-            color="secondary"
-            fullWidth
-            onClick={onInitButtonClick}
-          >
-            Réinitialiser
-          </Button>
+          <ResetSessionButton onClick={onInitButtonClick} />
         </div>
       ) : null}
-      {Array.isArray(users) ? (
-        <div className={classes.membersContainer}>
-          <List>
-            {users.map((user) => (
-              <ListItem className={classes.listItem} key={user.id}>
-                <UserNameInput
-                  name={user.id}
-                  value={user.name}
-                  isMe={me && user.id === me.id}
-                  isAdmin={user.isAdmin}
-                  onChange={handleNameChange}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      ) : null}
+
+      <LanguageSelect className={classes.languageSelect} />
     </>
   );
 
@@ -146,6 +143,7 @@ export default (props) => {
           {drawer}
         </Drawer>
       </Hidden>
+
       <Hidden xsDown>
         <div className={classes.root}>{drawer}</div>
       </Hidden>

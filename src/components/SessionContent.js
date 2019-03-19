@@ -1,11 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Hidden from '@material-ui/core/Hidden';
-import Button from '@material-ui/core/Button';
 
 import SessionUrl from './SessionUrl';
 import Cards from './Cards';
 import VoteResults from './VoteResults';
+import ResetSessionButton from './ResetSessionButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,10 +19,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
   },
   content: {
-    width: '100%',
     flex: 1,
     display: 'flex',
-    overflow: 'hidden',
   },
   voteResults: {
     margin: 20,
@@ -67,15 +65,7 @@ export default (props) => {
       </section>
       {showInitButton ? (
         <Hidden smUp>
-          <Button
-            variant="contained"
-            color="secondary"
-            fullWidth
-            size="large"
-            onClick={onInitButtonClick}
-          >
-            Réinitialiser
-          </Button>
+          <ResetSessionButton noBorderRadius onClick={onInitButtonClick} />
         </Hidden>
       ) : null}
     </section>

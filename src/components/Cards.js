@@ -1,6 +1,15 @@
 import React from 'react';
 import Card from './Card';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    padding: 10,
+    flex: 1,
+    display: 'flex',
+  },
+});
 
 const CARD_VALUES = [
   { id: 0, text: '0.5' },
@@ -18,18 +27,22 @@ const CARD_VALUES = [
 export default (props) => {
   const { selectedCardId, onCardClick } = props;
 
+  const classes = useStyles();
+
   return (
-    <Grid container>
-      {CARD_VALUES.map((value) => (
-        <Grid xs={6} md={3} lg={2} item>
-          <Card
-            key={value.id}
-            value={value}
-            isSelected={value.id === selectedCardId}
-            onClick={onCardClick}
-          />
-        </Grid>
-      ))}
-    </Grid>
+    <div className={classes.root}>
+      <Grid container>
+        {CARD_VALUES.map((value) => (
+          <Grid key={value.id} xs={6} md={3} lg={2} item>
+            <Card
+              key={value.id}
+              value={value}
+              isSelected={value.id === selectedCardId}
+              onClick={onCardClick}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 };

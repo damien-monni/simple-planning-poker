@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,12 +34,14 @@ export default (props) => {
 
   const classes = useStyles();
 
+  const { t } = useTranslation();
+
   return (
     <div className={classes.root}>
       <form className={classes.form} onSubmit={onSubmit}>
         <div className={classes.textField}>
           <TextField
-            label="Votre nom"
+            label={t('StartSession.name')}
             value={nameInputValue}
             fullWidth
             variant="outlined"
@@ -53,7 +56,7 @@ export default (props) => {
           color="secondary"
           disabled={!nameInputValue.length}
         >
-          Démarrer une nouvelle session
+          {t('StartSession.start')}
         </Button>
       </form>
     </div>

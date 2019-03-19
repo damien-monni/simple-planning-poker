@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -21,10 +22,12 @@ export default () => {
 
   const url = document.location.href;
 
+  const { t } = useTranslation();
+
   return (
     <div className={classes.root}>
       <Typography>
-        <b>URL de partage : </b>
+        <b>{t('SessionUrl.title')}</b>
         <Typography className={classes.url} component="span" color="primary">
           {url}
         </Typography>

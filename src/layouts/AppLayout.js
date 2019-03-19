@@ -1,7 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
+import mainEn from '../i18n/main-en';
+import mainFr from '../i18n/main-fr';
 import HomePage from '../components/HomePage';
 import SessionPage from '../components/SessionPage';
 
@@ -32,6 +36,18 @@ const theme = createMuiTheme({
     },
   },
 });
+
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources: {
+      en: mainEn,
+      fr: mainFr,
+    },
+    defaultNS: 'component',
+    lng: 'fr',
+    fallbackLng: 'fr',
+  });
 
 export default () => {
   return (
