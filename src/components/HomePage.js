@@ -14,35 +14,42 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    '&>*': {
+      flexShrink: 0,
+    },
   },
-  header: {
-    margin: '20px 50px',
-  },
-  nav: {
+  container: {
+    flex: 1,
+    overflowY: 'auto',
     display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  terms: {
-    marginLeft: 50,
+    flexDirection: 'column',
+    '&>*': {
+      flexShrink: 0,
+    },
   },
   main: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
   },
   title: {
-    marginBottom: 80,
+    marginTop: 30,
+    marginBottom: 30,
     marginLeft: 20,
     marginRight: 20,
     textAlign: 'center',
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 80,
+      marginBottom: 80,
+    },
   },
   footer: {
     textAlign: 'center',
     color: theme.palette.primary.contrastText,
     marginBottom: 20,
+    marginTop: 'auto',
+    paddingTop: 20,
   },
 }));
 
@@ -56,17 +63,19 @@ export default (props) => {
   return (
     <div className={classes.root}>
       <HomeHeader match={match} history={history} />
-      <main className={classes.main}>
-        <Typography className={classes.title} variant="h1" color="inherit">
-          Simple Planning Poker
-        </Typography>
-        <StartSession
-          nameInputValue={name}
-          onNameInputChange={onNameChange}
-          onSubmit={onSubmit}
-        />
-      </main>
-      <Footer className={classes.footer} />
+      <div className={classes.container}>
+        <main className={classes.main}>
+          <Typography className={classes.title} variant="h1" color="inherit">
+            Simple Planning Poker
+          </Typography>
+          <StartSession
+            nameInputValue={name}
+            onNameInputChange={onNameChange}
+            onSubmit={onSubmit}
+          />
+        </main>
+        <Footer className={classes.footer} />
+      </div>
     </div>
   );
 };
