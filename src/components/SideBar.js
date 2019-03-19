@@ -8,6 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import UserNameInput from './UserNameInput';
 
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: 50,
   },
+  menuIconButton: {
+    margin: 10,
+  },
   closeButton: {
     marginLeft: 'auto',
   },
@@ -51,7 +55,7 @@ export default (props) => {
   const { users, showInitButton, me, onInitButtonClick, onNameChange } = props;
   const classes = useStyles();
 
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(true);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const handleMobileDrawerOpen = () => {
     setMobileDrawerOpen(true);
@@ -118,6 +122,16 @@ export default (props) => {
 
   return (
     <>
+      <Hidden smUp>
+        <div>
+          <IconButton
+            className={classes.menuIconButton}
+            onClick={handleMobileDrawerOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+        </div>
+      </Hidden>
       <Hidden smUp>
         <Drawer
           variant="temporary"

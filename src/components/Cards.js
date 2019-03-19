@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Card from './Card';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   row: {
@@ -30,6 +31,22 @@ export default (props) => {
   const { selectedCardId, onCardClick } = props;
 
   const classes = useStyles();
+
+  return (
+    <Grid container>
+      {CARD_VALUES.map((value) => (
+        <Grid xs={6} md={3} lg={2} item>
+          <Card
+            key={value.id}
+            className={classes.card}
+            value={value}
+            isSelected={value.id === selectedCardId}
+            onClick={onCardClick}
+          />
+        </Grid>
+      ))}
+    </Grid>
+  );
 
   return (
     <>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 import SessionUrl from './SessionUrl';
 import Cards from './Cards';
@@ -14,9 +12,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  menuIconButton: {
-    margin: 10,
   },
   content: {
     width: '100%',
@@ -40,13 +35,6 @@ export default (props) => {
 
   return (
     <section className={classes.root}>
-      <Hidden smUp>
-        <div>
-          <IconButton className={classes.menuIconButton}>
-            <MenuIcon />
-          </IconButton>
-        </div>
-      </Hidden>
       <Hidden xsDown>
         <SessionUrl />
       </Hidden>

@@ -5,12 +5,16 @@ import useSession from '../hooks/useSession';
 import SideBar from './SideBar';
 import SessionContent from './SessionContent';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   main: {
     height: '100%',
     display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
   },
-});
+}));
 
 export default (props) => {
   const { match } = props;
