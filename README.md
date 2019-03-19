@@ -6,7 +6,6 @@ It doesn't use any server.
 
 [Demo : https://simple-planning-poker.com](https://simple-planning-poker.com)
 
-![Home page](docs/images/home-1-0-0.jpg)
 ![Poker session page](docs/images/session-1-0-0.jpg)
 
 ## Getting Started
