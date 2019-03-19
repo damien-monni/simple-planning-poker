@@ -38,10 +38,18 @@ export default (props) => {
     sessionState.users &&
     sessionState.clickedCards &&
     sessionState.users.length === sessionState.clickedCards.length;
+
+  const showInitButton = Boolean(
+    voteFinished &&
+      sessionState.me &&
+      sessionState.me.id ===
+        (sessionState.users && sessionState.users.find((u) => u.isAdmin).id),
+  );
+
   return (
     <main className={classes.main}>
       <SideBar
-        showInitButton={Boolean(voteFinished)}
+        showInitButton={showInitButton}
         users={sessionState.users}
         me={sessionState.me}
         onNameChange={handleNameChange}
@@ -51,6 +59,7 @@ export default (props) => {
         sessionState={sessionState}
         voteFinished={voteFinished}
         onCardClick={handleCardClick}
+        showInitButton={showInitButton}
         onInitButtonClick={handleInitButtonClick}
       />
     </main>

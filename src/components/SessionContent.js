@@ -33,7 +33,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
-  const { sessionState, voteFinished, onCardClick, onInitButtonClick } = props;
+  const {
+    sessionState,
+    voteFinished,
+    showInitButton,
+    onCardClick,
+    onInitButtonClick,
+  } = props;
 
   const classes = useStyles();
 
@@ -59,17 +65,19 @@ export default (props) => {
           <Cards selectedCardId={selectedCardId} onCardClick={onCardClick} />
         )}
       </section>
-      <Hidden smUp>
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          size="large"
-          onClick={onInitButtonClick}
-        >
-          Réinitialiser
-        </Button>
-      </Hidden>
+      {showInitButton ? (
+        <Hidden smUp>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            size="large"
+            onClick={onInitButtonClick}
+          >
+            Réinitialiser
+          </Button>
+        </Hidden>
+      ) : null}
     </section>
   );
 };

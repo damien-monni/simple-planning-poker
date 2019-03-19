@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     justifyContent: 'center',
     alignItems: 'stretch',
-    transition: 'all 0.2s ease',
     height: '100%',
   },
   card: {
@@ -21,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     borderRadius: 15,
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.2)',
+    transition: 'all 0.2s ease',
     [theme.breakpoints.up('sm')]: {
       margin: 12,
       padding: 20,

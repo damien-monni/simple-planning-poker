@@ -88,7 +88,7 @@ export default (props) => {
           </IconButton>
         </Hidden>
       </header>
-      {meIsAdmin && showInitButton ? (
+      {showInitButton ? (
         <div className={classes.initButtonContainer}>
           <Button
             variant="contained"
