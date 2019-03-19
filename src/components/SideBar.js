@@ -13,7 +13,6 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import UserNameInput from './UserNameInput';
 import ResetSessionButton from './ResetSessionButton';
-import LanguageSelect from './LanguageSelect';
 import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({

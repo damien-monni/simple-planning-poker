@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
 
 import useStartSession from '../hooks/useStartSession';
 import StartSession from './StartSession';
