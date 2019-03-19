@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 import UserNameInput from './UserNameInput';
 
@@ -70,13 +72,13 @@ export default (props) => {
     onNameChange && onNameChange({ userId: name, name: value });
   };
 
-  const meIsAdmin = me && me.id === (users && users.find((u) => u.isAdmin).id);
-
   const drawer = (
     <>
       <header className={classes.header}>
         <Typography variant="subtitle1" color="inherit">
-          Simple Planning Poker
+          <Link component={RouterLink} to="/" color="inherit">
+            Simple Planning Poker
+          </Link>
         </Typography>
         <Hidden smUp>
           <IconButton
