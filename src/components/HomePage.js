@@ -1,9 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 import useStartSession from '../hooks/useStartSession';
 import StartSession from './StartSession';
+import HomeHeader from './HomeHeader';
 import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,8 +16,17 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
+  },
+  header: {
+    margin: '20px 50px',
+  },
+  nav: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  terms: {
+    marginLeft: 50,
   },
   main: {
     display: 'flex',
@@ -25,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginBottom: 80,
+    marginLeft: 20,
+    marginRight: 20,
     textAlign: 'center',
   },
   footer: {
@@ -35,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
-  const { history } = props;
+  const { history, match } = props;
 
   const classes = useStyles();
 
@@ -43,6 +57,7 @@ export default (props) => {
 
   return (
     <div className={classes.root}>
+      <HomeHeader match={match} history={history} />
       <main className={classes.main}>
         <Typography className={classes.title} variant="h1" color="inherit">
           Simple Planning Poker
