@@ -1,14 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
 import Card from './Card';
 import Grid from '@material-ui/core/Grid';
-
-const useStyles = makeStyles({
-  row: {
-    display: 'flex',
-    marginBottom: 40,
-  },
-});
 
 const CARD_VALUES = [
   { id: 0, text: '0.5' },
@@ -25,8 +17,6 @@ const CARD_VALUES = [
 
 export default (props) => {
   const { selectedCardId, onCardClick } = props;
-
-  const classes = useStyles();
 
   return (
     <Grid container>
