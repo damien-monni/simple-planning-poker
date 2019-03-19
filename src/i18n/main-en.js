@@ -1,5 +1,9 @@
 export default {
   component: {
+    Footer: {
+      author: 'Developped with ♥ by ',
+      openSourced: 'Open sourced code on ',
+    },
     LanguageSelect: {
       frenchAlt: 'French flag',
       englishAlt: 'English flag',

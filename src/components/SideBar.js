@@ -14,14 +14,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import UserNameInput from './UserNameInput';
 import ResetSessionButton from './ResetSessionButton';
 import LanguageSelect from './LanguageSelect';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    width: 300,
     flexShrink: 0,
   },
   root: {
-    width: 300,
+    width: 320,
     borderRight: '1px solid #eee',
     overflowY: 'auto',
     flexShrink: 0,
@@ -45,8 +45,10 @@ const useStyles = makeStyles((theme) => ({
   initButtonContainer: {
     margin: 20,
   },
-  languageSelect: {
+  footer: {
     marginTop: 'auto',
+    textAlign: 'center',
+    marginBottom: 15,
   },
   listItem: {
     paddingTop: 0,
@@ -115,7 +117,7 @@ export default (props) => {
         </div>
       ) : null}
 
-      <LanguageSelect className={classes.languageSelect} />
+      <Footer className={classes.footer} />
     </>
   );
 
