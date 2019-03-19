@@ -19,7 +19,6 @@ Clone the repository
 
 ```
 git clone https://github.com/damien-monni/simple-planning-poker.git
-
 ```
 
 Go to cloned repository and install dependencies
@@ -27,7 +26,6 @@ Go to cloned repository and install dependencies
 ```
 cd simple-planning-poker
 npm install
-
 ```
 
 Copy file .env.example to .env.local and add your PubNub keys to it
@@ -36,7 +34,6 @@ That's it! You can start it locally:
 
 ```
 npm start
-
 ```
 
 ## Deployment
@@ -63,7 +60,3 @@ We use [SemVer](http://semver.org) for versioning. For the versions available, s
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-```
-
-```
