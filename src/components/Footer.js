@@ -57,7 +57,8 @@ export default (props) => {
           underline="always"
         >
           GitHub
-        </Link>
+        </Link>{' '}
+        - v1.0.0
       </Typography>
     </footer>
   );
