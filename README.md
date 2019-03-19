@@ -13,14 +13,11 @@ It doesn't use any server.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-```
-
 ### Installing
 
 Clone the repository
 
 ```
-
 git clone https://github.com/damien-monni/simple-planning-poker.git
 
 ```
@@ -28,7 +25,6 @@ git clone https://github.com/damien-monni/simple-planning-poker.git
 Go to cloned repository and install dependencies
 
 ```
-
 cd simple-planning-poker
 npm install
 
@@ -39,11 +35,9 @@ Copy file .env.example to .env.local and add your PubNub keys to it
 That's it! You can start it locally:
 
 ```
-
 npm start
 
 ```
-
 
 ## Deployment
 
@@ -51,8 +45,8 @@ Just run `npm build` and host files on any static hosting provider.
 
 ## Built With
 
-* [React (using React Hooks 💪)](https://reactjs.org) - A JavaScript library for building user interfaces.
-* [PubNub](https://www.pubnub.com) - Send messages between clients through web socket very easily.
+- [React (using React Hooks 💪)](https://reactjs.org) - A JavaScript library for building user interfaces.
+- [PubNub](https://www.pubnub.com) - Send messages between clients through web socket very easily.
 
 ## Contributing
 
@@ -64,10 +58,12 @@ We use [SemVer](http://semver.org) for versioning. For the versions available, s
 
 ## Authors
 
-* **Damien Monni** - *Initial work* - [LinkedIn](https://www.linkedin.com/in/damien-monni)
-
+- **Damien Monni** - _Initial work_ - [LinkedIn](https://www.linkedin.com/in/damien-monni)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+```
+
 ```
