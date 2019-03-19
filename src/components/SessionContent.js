@@ -1,30 +1,39 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
 
 import SessionUrl from './SessionUrl';
 import Cards from './Cards';
 import VoteResults from './VoteResults';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+  },
+  urlContainer: {
+    display: 'flex',
     justifyContent: 'center',
+    marginBottom: 20,
   },
   content: {
     width: '100%',
-    maxWidth: 1200,
-    margin: 'auto',
+    flex: 1,
+    display: 'flex',
+    overflow: 'hidden',
   },
   voteResults: {
-    margin: 50,
+    margin: 20,
+    [theme.breakpoints.up('sm')]: {
+      margin: 50,
+    },
   },
-});
+}));
 
 export default (props) => {
-  const { sessionState, voteFinished, onCardClick } = props;
+  const { sessionState, voteFinished, onCardClick, onInitButtonClick } = props;
 
   const classes = useStyles();
 
@@ -36,7 +45,9 @@ export default (props) => {
   return (
     <section className={classes.root}>
       <Hidden xsDown>
-        <SessionUrl />
+        <div className={classes.urlContainer}>
+          <SessionUrl />
+        </div>
       </Hidden>
       <section className={classes.content}>
         {voteFinished ? (
@@ -48,6 +59,17 @@ export default (props) => {
           <Cards selectedCardId={selectedCardId} onCardClick={onCardClick} />
         )}
       </section>
+      <Hidden smUp>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          size="large"
+          onClick={onInitButtonClick}
+        >
+          Réinitialiser
+        </Button>
+      </Hidden>
     </section>
   );
 };

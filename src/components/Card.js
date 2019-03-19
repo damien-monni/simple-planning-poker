@@ -7,15 +7,25 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flex: 1,
     display: 'flex',
+    marginLeft: 0,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    alignItems: 'stretch',
+    transition: 'all 0.2s ease',
+    height: '100%',
+  },
+  card: {
+    flex: 1,
+    display: 'flex',
+    margin: 8,
+    padding: 10,
     backgroundColor: 'white',
     borderRadius: 15,
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.2)',
-    padding: 10,
-    transition: 'all 0.2s ease',
+    [theme.breakpoints.up('sm')]: {
+      margin: 12,
+      padding: 20,
+      borderRadius: 15,
+    },
     '&:hover': {
       transform: 'translate(3px, 3px)',
       boxShadow: '0 0 50px rgba(0, 0, 0, 0.2)',
@@ -25,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translate(3px, 3px)',
   },
   button: {
-    fontSize: '3rem',
+    fontSize: '2rem',
     color: theme.palette.primary.contrastText,
     flex: 1,
     height: '100%',
@@ -34,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     },
     borderRadius: 12,
     transition: 'all 0.2s ease',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '3rem',
+    },
   },
 }));
 
@@ -54,9 +67,11 @@ export default (props) => {
         isSelected && classes.selected,
       )}
     >
-      <ButtonBase onClick={handleClick} className={classes.button}>
-        {value.text}
-      </ButtonBase>
+      <div className={classes.card}>
+        <ButtonBase onClick={handleClick} className={classes.button}>
+          {value.text}
+        </ButtonBase>
+      </div>
     </div>
   );
 };

@@ -4,8 +4,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
+import classNames from 'classnames';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flex: 1,
+  },
   listItem: {
     backgroundColor: 'white',
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.1)',
@@ -17,22 +21,32 @@ const useStyles = makeStyles({
   },
   card: {
     flex: 'inherit',
-    width: 180,
+    width: 80,
     textAlign: 'center',
     borderRight: '1px solid #f0f0f0',
     boxShadow: '0 0 30px rgba(0, 0, 0, 0.1)',
     padding: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: 180,
+    },
   },
   cardPrimary: {
-    margin: '30px 50px',
-    fontSize: '2rem',
+    margin: '30px 10px',
+    fontSize: '1.5rem',
     color: '#555',
     flex: 1,
+    [theme.breakpoints.up('sm')]: {
+      margin: '30px 50px',
+      fontSize: '2rem',
+    },
   },
   usersContainer: {
     margin: 30,
   },
-});
+  name: {
+    fontSize: '1.1rem',
+  },
+}));
 
 export default (props) => {
   const { className, sessionState } = props;
@@ -62,7 +76,7 @@ export default (props) => {
   }, []);
 
   return (
-    <List disablePadding className={className}>
+    <List disablePadding className={classNames(classes.root, className)}>
       {grouppedCards.map((card) => (
         <ListItem key={card.id} disableGutters className={classes.listItem}>
           <ListItemText
@@ -72,7 +86,9 @@ export default (props) => {
           </ListItemText>
           <div className={classes.usersContainer}>
             {card.userNames.map((name, index) => (
-              <Typography key={index}>{name}</Typography>
+              <Typography key={index} className={classes.name}>
+                {name}
+              </Typography>
             ))}
           </div>
         </ListItem>

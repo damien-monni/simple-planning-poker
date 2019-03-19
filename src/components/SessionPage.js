@@ -51,6 +51,7 @@ export default (props) => {
         sessionState={sessionState}
         voteFinished={voteFinished}
         onCardClick={handleCardClick}
+        onInitButtonClick={handleInitButtonClick}
       />
     </main>
   );
