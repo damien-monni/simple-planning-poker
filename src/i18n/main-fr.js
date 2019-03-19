@@ -25,7 +25,7 @@ export default {
       text: 'Réinitialiser',
     },
     SessionUrl: {
-      title: 'URL partageable: ',
+      title: 'URL partageable : ',
     },
     StartSession: {
       name: 'Votre nom',
