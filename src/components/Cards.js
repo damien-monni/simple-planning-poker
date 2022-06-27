@@ -19,9 +19,9 @@ const CARD_VALUES = [
   { id: 4, text: '5' },
   { id: 5, text: '8' },
   { id: 6, text: '13' },
-  { id: 7, text: '20' },
-  { id: 8, text: '40' },
-  { id: 9, text: '100' },
+  { id: 7, text: '21' },
+  { id: 8, text: '34' },
+  { id: 9, text: '55' },
 ];
 
 export default (props) => {
