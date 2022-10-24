@@ -22,6 +22,10 @@ export default {
     ResetSessionButton: {
       text: 'Reset',
     },
+    SessionContent: {
+      observerMode:
+        'You are in observer mode. Votes are in progress, please wait.',
+    },
     SessionUrl: {
       title: 'Shared URL: ',
     },

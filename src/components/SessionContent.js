@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -6,6 +6,8 @@ import SessionUrl from './SessionUrl';
 import Cards from './Cards';
 import VoteResults from './VoteResults';
 import ResetSessionButton from './ResetSessionButton';
+import { Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
       margin: 50,
     },
   },
+  observerContainer: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  observer: {
+    textAlign: 'center',
+  },
 }));
 
 export default (props) => {
@@ -39,12 +50,22 @@ export default (props) => {
     onInitButtonClick,
   } = props;
 
+  const { t } = useTranslation();
+
   const classes = useStyles();
 
   const clickedCard =
     sessionState.clickedCards &&
     sessionState.clickedCards.find((c) => c.userId === sessionState.me.id);
   const selectedCardId = clickedCard && clickedCard.id;
+
+  const isObserver = useMemo(() => {
+    const me =
+      sessionState &&
+      sessionState.users &&
+      sessionState.users.find((u) => u.id === sessionState.me.id);
+    return !!me && !!me.observer;
+  }, [sessionState]);
 
   return (
     <section className={classes.root}>
@@ -59,6 +80,12 @@ export default (props) => {
             className={classes.voteResults}
             sessionState={sessionState}
           />
+        ) : isObserver ? (
+          <div className={classes.observerContainer}>
+            <Typography className={classes.observer}>
+              {t('SessionContent.observerMode')}
+            </Typography>
+          </div>
         ) : (
           <Cards selectedCardId={selectedCardId} onCardClick={onCardClick} />
         )}

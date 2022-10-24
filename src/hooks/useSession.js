@@ -14,7 +14,6 @@ const normalizeState = (state) => {
 };
 
 /*******************************
-- Subscribe to pubnub channel based on sessionId
   
 - Check in local storage if session exists and if we are admin
   - If we are admin
@@ -115,7 +114,7 @@ export default ({ sessionId }) => {
   useEffect(() => {
     // set listners based on our role (admin or user)
     const adminListeners = {
-      status: function(statusEvent) {
+      status: function (statusEvent) {
         if (statusEvent.category === 'PNConnectedCategory') {
           // We joined the session
           // Start watchdog to detect users' disconections
@@ -138,7 +137,7 @@ export default ({ sessionId }) => {
             break;
           }
           case 'new-name': {
-            const { name, userId } = message;
+            const { name, userId, observer } = message;
 
             const newState = {
               ...sessionState,
@@ -146,7 +145,25 @@ export default ({ sessionId }) => {
                 if (user.id !== userId) {
                   return user;
                 }
-                return { ...user, name };
+                return { ...user, name, observer };
+              }),
+            };
+
+            setSessionState(newState);
+            const normalizedState = normalizeState(newState);
+            publish({ action: 'new-state', state: normalizedState });
+            break;
+          }
+          case 'switch-observer': {
+            const { observer, userId } = message;
+
+            const newState = {
+              ...sessionState,
+              users: sessionState.users.map((user) => {
+                if (user.id !== userId) {
+                  return user;
+                }
+                return { ...user, observer };
               }),
             };
 
@@ -186,7 +203,7 @@ export default ({ sessionId }) => {
     };
 
     const userListeners = {
-      status: function(statusEvent) {
+      status: function (statusEvent) {
         if (statusEvent.category === 'PNConnectedCategory') {
           // We joined the session
           // Emit a join message
@@ -246,10 +263,15 @@ export default ({ sessionId }) => {
     publish({ action: 'new-name', userId, name });
   };
 
+  const handleSwitchObserver = ({ userId, observer }) => {
+    publish({ action: 'switch-observer', userId, observer });
+  };
+
   return {
     sessionState,
     handleCardClick,
     handleNameChange,
     handleInitButtonClick,
+    handleSwitchObserver,
   };
 };

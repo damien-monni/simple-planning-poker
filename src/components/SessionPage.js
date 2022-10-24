@@ -28,6 +28,7 @@ export default (props) => {
     handleCardClick,
     handleInitButtonClick,
     handleNameChange,
+    handleSwitchObserver,
   } = useSession({
     sessionId,
   });
@@ -37,7 +38,8 @@ export default (props) => {
     sessionState &&
     sessionState.users &&
     sessionState.clickedCards &&
-    sessionState.users.length === sessionState.clickedCards.length;
+    sessionState.users.filter((u) => !u.observer).length ===
+      sessionState.clickedCards.length;
 
   const showInitButton = Boolean(
     voteFinished &&
@@ -53,6 +55,7 @@ export default (props) => {
         users={sessionState.users}
         me={sessionState.me}
         onNameChange={handleNameChange}
+        onObserverChange={handleSwitchObserver}
         onInitButtonClick={handleInitButtonClick}
       />
       <SessionContent

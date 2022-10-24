@@ -12,8 +12,7 @@ export default {
         'Micro-entrepreneur domicilié au 34 rue de la Mauvendière, 87000 Limoges. SIRET 830 816 690 00028',
       contact: 'contact@damien-monni.com - +33 (0)6 67 95 56 76.',
       publisherName: 'Directeur de la publication : Damien Monni.',
-      host:
-        'Hébergé par Netlify, San Francisco, États-Unis - https://www.netlify.com.',
+      host: 'Hébergé par Netlify, San Francisco, États-Unis - https://www.netlify.com.',
       gdpr: 'Simple Planning Poker ne reccueil aucune donnée personnelle.',
       closeTerms: 'Fermer',
     },
@@ -23,6 +22,10 @@ export default {
     },
     ResetSessionButton: {
       text: 'Réinitialiser',
+    },
+    SessionContent: {
+      observerMode:
+        'Vous êtes en mode observateur. Les votes sont en cours, veuillez patienter.',
     },
     SessionUrl: {
       title: 'URL partageable : ',

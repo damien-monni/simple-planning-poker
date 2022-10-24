@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,6 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import UserNameInput from './UserNameInput';
 import ResetSessionButton from './ResetSessionButton';
 import Footer from './Footer';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -53,10 +54,20 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 0,
     paddingBottom: 0,
   },
+  observerModeContainer: {
+    margin: '20px',
+  },
 }));
 
 export default (props) => {
-  const { users, showInitButton, me, onInitButtonClick, onNameChange } = props;
+  const {
+    users,
+    showInitButton,
+    me,
+    onInitButtonClick,
+    onNameChange,
+    onObserverChange,
+  } = props;
   const classes = useStyles();
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -73,6 +84,11 @@ export default (props) => {
     const { name, value } = event.target;
     onNameChange && onNameChange({ userId: name, name: value });
   };
+
+  const isObserver = useMemo(() => {
+    const isObserver = users && users.find((u) => u.id === me.id).observer;
+    return isObserver;
+  }, [me, users]);
 
   const drawer = (
     <>
@@ -94,19 +110,36 @@ export default (props) => {
         </Hidden>
       </header>
 
+      <div className={classes.observerModeContainer}>
+        <Button
+          color="primary"
+          variant="outlined"
+          fullWidth
+          onClick={() => {
+            onObserverChange &&
+              onObserverChange({ userId: me.id, observer: !isObserver });
+          }}
+        >
+          {isObserver ? 'Remove observer mode' : 'Switch to observer mode'}
+        </Button>
+      </div>
+
       {Array.isArray(users) ? (
         <List>
-          {users.map((user) => (
-            <ListItem className={classes.listItem} key={user.id}>
-              <UserNameInput
-                name={user.id}
-                value={user.name}
-                isMe={me && user.id === me.id}
-                isAdmin={user.isAdmin}
-                onChange={handleNameChange}
-              />
-            </ListItem>
-          ))}
+          {users.map((user) => {
+            return (
+              <ListItem className={classes.listItem} key={user.id}>
+                <UserNameInput
+                  isObserver={!!user.observer}
+                  name={user.id}
+                  value={user.name}
+                  isMe={me && user.id === me.id}
+                  isAdmin={user.isAdmin}
+                  onChange={handleNameChange}
+                />
+              </ListItem>
+            );
+          })}
         </List>
       ) : null}
 

@@ -58,7 +58,7 @@ export default (props) => {
         >
           GitHub
         </Link>{' '}
-        - v1.0.0
+        - v1.1.0
       </Typography>
     </footer>
   );
